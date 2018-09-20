@@ -1,5 +1,8 @@
 # eFuture
 
+[![Build Status](https://travis-ci.org/xlui/eFuture.svg?branch=master)](https://travis-ci.org/xlui/eFuture)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/xlui/eFuture)
+
 Send an email to future!
 
 It is a really amazing thing that some day you received a email from past, isn't it?
