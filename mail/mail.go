@@ -21,7 +21,7 @@ var conf configuration
 
 func init() {
 	//workDir, _ := os.Getwd()
-	bytes, e := ioutil.ReadFile("/home/xlui/eFuture/config.json")
+	bytes, e := ioutil.ReadFile("/data/eFuture/config.json")
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "File Error: %s\n", e)
 		return
@@ -50,5 +50,5 @@ func SendMail(subject string, receivers []string, content string) bool {
 }
 
 func main() {
-	SendMail("test email", []string{"liuqi0315@gmail.com"}, "This is a test email, current is: " + time.Now().String())
+	SendMail("test email", []string{"liuqi0315@gmail.com"}, "This is a test email, and current time is: " + time.Now().String())
 }
