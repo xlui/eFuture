@@ -1,0 +1,6 @@
+{
+	"username": "test@example.com",
+	"password": "PasswordOfExample",
+	"smtp": "smtp.example.com",
+	"smtp_port": "587"
+}
