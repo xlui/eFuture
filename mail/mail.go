@@ -1,5 +1,4 @@
-//package mail
-package main
+package mail
 
 import (
 	"encoding/json"
@@ -8,7 +7,6 @@ import (
 	"net/smtp"
 	"os"
 	"strings"
-	"time"
 )
 
 type configuration struct {
@@ -53,6 +51,6 @@ func SendMail(subject string, receivers []string, content string) bool {
 	return isSent
 }
 
-func main() {
-	SendMail("test email", []string{"liuqi0315@gmail.com"}, "This is a test email, and current time is: "+time.Now().String())
-}
+//func main() {
+//	SendMail("test email", []string{"liuqi0315@gmail.com"}, "This is a test email, and current time is: "+time.Now().String())
+//}
