@@ -1,5 +1,4 @@
-//package rabbitmq
-package main
+package rabbitmq
 
 import (
 	"fmt"
@@ -11,14 +10,11 @@ import (
 const (
 	exchange = "eFuture.msg.exchange"
 	queue    = "eFuture.msg.queue"
-	key		 = "queue_ex"
+	key      = "queue_ex"
 	mqUrl    = "amqp://user:user@localhost:5672/eFuture"
 )
 
-var (
-	connection *amqp.Connection
-	channel    *amqp.Channel
-)
+var channel *amqp.Channel
 
 func main() {
 	go func() {
@@ -32,11 +28,16 @@ func main() {
 	close()
 }
 
+func init() {
+	connect()
+}
+
 func connect() {
 	connection, e := amqp.Dial(mqUrl)
 	if e != nil {
 		log.Fatalf("%s:%s", "Failed to connect to rabbitmq", e)
 	}
+	defer connection.Close()
 	channel, e = connection.Channel()
 	if e != nil {
 		log.Fatalf("%s:%s", "Failed to open a channel", e)
@@ -46,13 +47,9 @@ func connect() {
 
 func close() {
 	channel.Close()
-	connection.Close()
 }
 
 func Push(message string) {
-	if channel == nil {
-		connect()
-	}
 	channel.Publish(exchange, key, false, false, amqp.Publishing{
 		ContentType: "text/plain",
 		Body:        []byte(message),
@@ -60,9 +57,6 @@ func Push(message string) {
 }
 
 func Receive() {
-	if channel == nil {
-		connect()
-	}
 	messages, e := channel.Consume(queue, "", true, false, false, false, nil)
 	if e != nil {
 		log.Fatalf("%s:%s", "", e)
