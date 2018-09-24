@@ -1,4 +1,5 @@
-package rabbitmq
+//package rabbitmq
+package main
 
 import (
 	"fmt"
@@ -10,6 +11,7 @@ import (
 const (
 	exchange = "eFuture.msg.exchange"
 	queue    = "eFuture.msg.queue"
+	key		 = "queue_ex"
 	mqUrl    = "amqp://user:user@localhost:5672/eFuture"
 )
 
@@ -39,6 +41,7 @@ func connect() {
 	if e != nil {
 		log.Fatalf("%s:%s", "Failed to open a channel", e)
 	}
+	channel.QueueBind(queue, key, exchange, false, nil)
 }
 
 func close() {
@@ -50,7 +53,7 @@ func Push(message string) {
 	if channel == nil {
 		connect()
 	}
-	channel.Publish(exchange, queue, false, false, amqp.Publishing{
+	channel.Publish(exchange, key, false, false, amqp.Publishing{
 		ContentType: "text/plain",
 		Body:        []byte(message),
 	})
@@ -60,7 +63,6 @@ func Receive() {
 	if channel == nil {
 		connect()
 	}
-	count := 0
 	messages, e := channel.Consume(queue, "", true, false, false, false, nil)
 	if e != nil {
 		log.Fatalf("%s:%s", "", e)
@@ -70,8 +72,7 @@ func Receive() {
 	go func() {
 		for message := range messages {
 			s := string(message.Body)
-			count++
-			fmt.Printf("Receive: %s -- %d\n", s, count)
+			fmt.Printf("Receive: %s -- %s\n", s, time.Now().Format(time.RFC3339))
 		}
 	}()
 	fmt.Println("[*] Waiting for messages. To exist press CTRL+C")

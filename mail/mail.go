@@ -19,7 +19,6 @@ type configuration struct {
 var conf configuration
 
 func init() {
-	//workDir, _ := os.Getwd()
 	config := os.Getenv("EFUTURE_CONFIG")
 	if config == "" {
 		config = "/data/eFuture/config.json"
