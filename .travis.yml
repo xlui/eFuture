@@ -21,5 +21,6 @@ before_script:
   - sudo wget http://user:user@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
   - sudo chmod +x /usr/local/bin/rabbitmqadmin
   - rabbitmqadmin declare exchange --vhost=eFuture name="eFuture.msg.exchange" type=direct -u user -p user
-  - rabbitmqadmin declare queue --vhost=eFuture name="eFuture.msg.queue" durable=false -u user -p user
+  - rabbitmqadmin declare queue --vhost=eFuture name="eFuture.msg.queue" durable=true -u user -p user
+  - rabbitmqadmin declare queue --vhost=eFuture name="eFuture.msg.future" durable=true arguments={"x-dead-letter-exchange":"eFuture.msg.exchange", "x-dead-letter-routing-key":""} -u user -p user
 script: go test ./...

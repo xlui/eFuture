@@ -1,15 +1,13 @@
 package main
 
 import (
-	"eFuture/mail"
 	"eFuture/rabbitmq"
+	"time"
 )
 
 func main() {
-	rabbitmq.Push("Hello!")
-	go func() {
-		rabbitmq.Receive()
-	}()
-	println("try to send mail")
-	mail.SendMail("hello xlui!", []string{"i@xlui.me"}, "I'm sending mail to you through golang.")
+	receive := time.Now().Add(time.Second * 5)
+	rabbitmq.Push("hello, world!")
+	rabbitmq.PushAtDate("Hello!", receive)
+	rabbitmq.Receive()
 }

@@ -1,76 +1,79 @@
 package rabbitmq
 
 import (
+	"eFuture/common"
 	"fmt"
 	"github.com/streadway/amqp"
 	"log"
+	"strconv"
 	"time"
 )
 
 const (
-	exchange = "eFuture.msg.exchange"
-	queue    = "eFuture.msg.queue"
-	key      = "queue_ex"
-	mqUrl    = "amqp://user:user@localhost:5672/eFuture"
+	exchange   = "eFuture.msg.exchange"
+	queue      = "eFuture.msg.queue"
+	delayQueue = "eFuture.msg.future"
+	mqUrl      = "amqp://user:user@localhost:5672/eFuture"
 )
 
+var connection *amqp.Connection
 var channel *amqp.Channel
-
-func r_main() {
-	go func() {
-		for {
-			Push("hello, world!")
-			time.Sleep(1 * time.Second)
-		}
-	}()
-	Receive()
-	fmt.Println("End!")
-	close()
-}
 
 func init() {
 	connect()
 }
 
 func connect() {
-	connection, e := amqp.Dial(mqUrl)
-	if e != nil {
-		log.Fatalf("%s:%s", "Failed to connect to rabbitmq", e)
-	}
-	defer connection.Close()
+	var e error
+	// connect
+	connection, e = amqp.Dial(mqUrl)
+	common.FailOnError(e, "Failed to connect to rabbitmq!")
+	// open channel
 	channel, e = connection.Channel()
-	if e != nil {
-		log.Fatalf("%s:%s", "Failed to open a channel", e)
-	}
-	channel.QueueBind(queue, key, exchange, false, nil)
+	common.FailOnError(e, "Failed to open a channel!")
+	channel.QueueBind(queue, delayQueue, exchange, false, nil)
 }
 
+//noinspection GoUnusedFunction,GoReservedWordUsedAsName
 func close() {
 	channel.Close()
+	connection.Close()
 }
 
 func Push(message string) {
-	channel.Publish(exchange, key, false, false, amqp.Publishing{
+	channel.Publish(exchange, delayQueue, false, false, amqp.Publishing{
 		ContentType: "text/plain",
 		Body:        []byte(message),
 	})
 }
 
 func PushAtDate(message string, date time.Time) {
-	//channel.Publish()
+	// millisecond
+	duration := date.Sub(time.Now()).Seconds() * 1000
+	// to-string
+	expire := strconv.Itoa(int(duration))
+	log.Println(expire)
+	e := channel.Publish(
+		"",
+		delayQueue,
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(message),
+			Expiration:  expire, // 5秒过期
+		},
+	)
+	common.FailOnError(e, "Failed to send message!")
 }
 
 func Receive() {
 	messages, e := channel.Consume(queue, "", true, false, false, false, nil)
-	if e != nil {
-		log.Fatalf("%s:%s", "", e)
-	}
-
+	common.FailOnError(e, "")
 	forever := make(chan bool)
 	go func() {
 		for message := range messages {
-			s := string(message.Body)
-			fmt.Printf("Receive: %s -- %s\n", s, time.Now().Format(time.RFC3339))
+			log.Println(string(message.Body))
 		}
 	}()
 	fmt.Println("[*] Waiting for messages. To exist press CTRL+C")
