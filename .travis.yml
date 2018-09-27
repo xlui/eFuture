@@ -1,8 +1,24 @@
+sudo: required
 language: go
 go: 1.11.x
+services:
+  - rabbitmq
 env:
   global:
     - GO111MODULE=on
 before_script:
   - export EFUTURE_CONFIG=`pwd`/config-example.json
+  # Enable rabbitmq management plugin to check queue
+  #  - sudo rabbitmq-plugins enable rabbitmq_management
+  - sudo rabbitmqctl add_user user user
+  # Flag user as administrator
+  - sudo rabbitmqctl set_user_tags user administrator
+  - sudo rabbitmqctl set_permissions -p / user ".*" ".*" ".*"
+  - sudo rabbitmqctl add_vhost eFuture
+  - sudo rabbitmqctl set_permissions -p eFuture user ".*" ".*" ".*"
+  # Get rabbitmqadmin from rabbitmq
+  - sudo wget http://user:user@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
+  - sudo chmod +x /usr/local/bin/rabbitmqadmin
+  - rabbitmqadmin declare exchange --vhost=eFuture name="eFuture.msg.exchange" type=direct -u user -p user
+  - rabbitmqadmin declare queue --vhost=eFuture name="eFuture.msg.queue" durable=false -u user -p user
 script: go test ./...
