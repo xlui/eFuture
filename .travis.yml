@@ -3,6 +3,7 @@ language: go
 go: 1.11.x
 services:
   - rabbitmq
+  - redis-server
 env:
   global:
     - GO111MODULE=on

@@ -1,2 +1,4 @@
+github.com/go-redis/redis v6.14.1+incompatible h1:kSJohAREGMr344uMa8PzuIg5OU6ylCbyDkWkkNOfEik=
+github.com/go-redis/redis v6.14.1+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
 github.com/streadway/amqp v0.0.0-20180806233856-70e15c650864 h1:Oj3PUEs+OUSYUpn35O+BE/ivHGirKixA3+vqA0Atu9A=
 github.com/streadway/amqp v0.0.0-20180806233856-70e15c650864/go.mod h1:1WNBiOZtZQLpVAyu0iTduoJL9hEsMloAK5XWrtW0xdY=

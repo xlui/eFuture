@@ -16,7 +16,7 @@ const (
 
 var channel *amqp.Channel
 
-func main() {
+func r_main() {
 	go func() {
 		for {
 			Push("hello, world!")
@@ -57,7 +57,7 @@ func Push(message string) {
 }
 
 func PushAtDate(message string, date time.Time) {
-	channel.Publish()
+	//channel.Publish()
 }
 
 func Receive() {

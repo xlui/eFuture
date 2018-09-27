@@ -1,4 +1,4 @@
-package common
+package rabbitmq
 
 import "log"
 

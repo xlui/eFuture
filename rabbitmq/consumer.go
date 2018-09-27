@@ -1,19 +1,19 @@
-package main
+package rabbitmq
 
 import (
-	"eFuture/rabbitmq/common"
+	
 	"github.com/streadway/amqp"
 	"log"
 )
 
 
-func main() {
+func c_main() {
 	connection, e := amqp.Dial("amqp://user:user@localhost:5672")
-	common.FailOnError(e, "Failed to connect to RabbitMQ")
+	FailOnError(e, "Failed to connect to RabbitMQ")
 	defer connection.Close()
 
 	channel, e := connection.Channel()
-	common.FailOnError(e, "Failed to open a channel!")
+	FailOnError(e, "Failed to open a channel!")
 	defer channel.Close()
 
 	e = channel.ExchangeDeclare(
@@ -25,7 +25,7 @@ func main() {
 		false,
 		nil,
 	)
-	common.FailOnError(e, "Failed to declare an exchange")
+	FailOnError(e, "Failed to declare an exchange")
 
 	queue, e := channel.QueueDeclare(
 		"test_logs",
@@ -35,7 +35,7 @@ func main() {
 		false,
 		nil,
 	)
-	common.FailOnError(e, "Failed to declare a queue!")
+	FailOnError(e, "Failed to declare a queue!")
 
 	_, e = channel.QueueDeclare(
 		"test_delay",
@@ -47,10 +47,10 @@ func main() {
 			"x-dead-letter-exchange": "logs",
 		},
 	)
-	common.FailOnError(e, "Failed to declare a delay queue")
+	FailOnError(e, "Failed to declare a delay queue")
 
 	e = channel.QueueBind(queue.Name, "", "logs", false, nil)
-	common.FailOnError(e, "Failed to bind a queue!")
+	FailOnError(e, "Failed to bind a queue!")
 
 	messages, e := channel.Consume(
 		queue.Name,
@@ -61,7 +61,7 @@ func main() {
 		false,
 		nil,
 	)
-	common.FailOnError(e, "Failed to register a consumer!")
+	FailOnError(e, "Failed to register a consumer!")
 
 	forever := make(chan bool)
 	go func() {
