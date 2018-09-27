@@ -56,6 +56,10 @@ func Push(message string) {
 	})
 }
 
+func PushAtDate(message string, date time.Time) {
+	channel.Publish()
+}
+
 func Receive() {
 	messages, e := channel.Consume(queue, "", true, false, false, false, nil)
 	if e != nil {
