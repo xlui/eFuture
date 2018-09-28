@@ -20,3 +20,9 @@ point. So at user interface we need users to input or select:
 After user fill in the four part above properly, we now need a reliably component to reserve these emails and to send them at a specified time point. For this project, I choose rabbitmq to guarantee future-email being consumed only at specified time and being backuped for unexpected server fault.
 
 I choose to implement this project through `golang`.
+
+## RabbitMQ
+
+We need rabbitmq to support delayed tasks. Using rabbitmq to provide delayed task we need a feature of queue: `x-dead-letter-exchange`.
+Declare a `x-dead-letter-exchange` property for a queue, the queue will automatically forward expired message to the specified exchange.
+What we need to do is to receive messages for a queue which is bind to the exchange too.
