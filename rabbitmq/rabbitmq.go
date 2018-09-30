@@ -1,3 +1,4 @@
+// Rabbitmq delayed tasks implement
 package rabbitmq
 
 import (

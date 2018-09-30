@@ -1,7 +1,9 @@
+// Redis delayed task implement
 package redis
 
 import (
 	"eFuture/common"
+	"eFuture/config"
 	"github.com/go-redis/redis"
 	"github.com/satori/go.uuid"
 	"log"
@@ -14,9 +16,9 @@ var client *redis.Client
 
 func init() {
 	client = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "",
-		DB:       0,
+		Addr:     config.Configuration.RedisAddress,
+		Password: config.Configuration.RedisPassword,
+		DB:       config.Configuration.RedisDB,
 	})
 	_, e := client.Ping().Result()
 	common.FailOnError(e, "Failed to connect to redis")
