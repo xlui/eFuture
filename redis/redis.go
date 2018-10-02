@@ -6,22 +6,23 @@ import (
 	"eFuture/config"
 	"github.com/go-redis/redis"
 	"github.com/satori/go.uuid"
-	"log"
 	"time"
 )
 
 const QUEUE_KEY = "mail_queue"
 
 var client *redis.Client
+var configuration = config.Configuration
 
 func init() {
 	client = redis.NewClient(&redis.Options{
-		Addr:     config.Configuration.RedisAddress,
-		Password: config.Configuration.RedisPassword,
-		DB:       config.Configuration.RedisDB,
+		Addr:     configuration.RedisAddress,
+		Password: configuration.RedisPassword,
+		DB:       configuration.RedisDB,
 	})
 	_, e := client.Ping().Result()
 	common.FailOnError(e, "Failed to connect to redis")
+	// delete the following line when deploy
 	client.Del(QUEUE_KEY)
 }
 
@@ -52,23 +53,4 @@ func Pop() (bool, string) {
 	} else {
 		return false, ""
 	}
-}
-
-func main() {
-	date1 := time.Now().Add(time.Second * 1)
-	date2 := time.Now().Add(time.Second * 2)
-	date3 := time.Now().Add(time.Second * 3)
-	log.Println("Push data 1")
-	Push("hello 1", date1)
-	log.Println("Push data 2")
-	Push("hello 2", date2)
-	log.Println("Push data 3")
-	Push("hello 3", date3)
-	for {
-		time.Sleep(1 * time.Second)
-		if b, d := Pop(); b {
-			log.Println(d)
-		}
-	}
-
 }

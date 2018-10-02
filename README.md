@@ -21,6 +21,17 @@ After user fill in the four part above properly, we now need a reliably componen
 
 I choose to implement this project through `golang`.
 
+## Redis
+
+After trying to use RabbitMQ to implement `delayed tasks` I found that rabbitmq is not a good idea. The implement has a fatal flaw that
+in the dead queue, if the top task is not expired, although the following one or more tasks is expired, they won't be forwarded
+the specified exchange. This causes the shorter task waiting for the longer task and the shorter task cannot be consumed at time.
+
+So I choose redis to implement the `delayed task`. `ZSet` is a PriorityQueue-Like data structure which can sort tasks by a `score`.
+We can attach a timestamp to task when putting them into redis. By doing so, the top task in zset is the one bind to the smallest timestamp
+and also is the first task that should be done. And in our code, we check the first task in zset every second, compare its `score` with
+current `time.Now`'s timestamp. If the score is bigger than `time.Now`'s timestamp, this means that the task is time to be done.
+
 ## RabbitMQ
 
 We need rabbitmq to support delayed tasks. Using rabbitmq to provide delayed task we need a feature of queue: `x-dead-letter-exchange`.
