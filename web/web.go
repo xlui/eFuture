@@ -17,7 +17,7 @@ type TodoPageData struct {
 }
 
 func main() {
-	tmpl := template.Must(template.ParseFiles("index.html"))
+	tmpl := template.Must(template.ParseFiles("web/index.html"))
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		data := TodoPageData{
 			PageTitle:"My Todo List",
