@@ -1,6 +1,6 @@
 {
-  "username": "test@example.com",
-  "password": "PasswordOfExample",
+  "username": "future@example.com",
+  "password": "password",
   "smtp": "smtp.example.com",
   "smtp_port": "587",
   "redis_address": "127.0.0.1:6379",

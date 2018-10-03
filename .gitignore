@@ -1,4 +1,3 @@
 .idea/
-# ignore sensitive passwords
+# ignore sensitive username and password info
 config.json
-TestPage.txt
