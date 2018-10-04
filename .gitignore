@@ -3,3 +3,4 @@
 config.json
 # ignore python cache
 __pycache__/
+*.log

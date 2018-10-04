@@ -5,5 +5,7 @@
   "smtp_port": "587",
   "redis_address": "127.0.0.1:6379",
   "redis_password": "",
-  "redis_db": 0
+  "redis_db": 0,
+  "log_path": "/tmp/eFuture.log",
+  "log_level": "DEBUG"
 }
