@@ -1,29 +1,28 @@
 import smtplib
-from email.mime.text import MIMEText
 from email.header import Header
-from config.config import configuration
+from email.mime.text import MIMEText
 
-charset = 'utf-8'
-host = configuration['smtp']
-port = configuration['smtp_port']
-username = configuration['username']
-password = configuration['password']
-sender = username
-receivers = ['liuqi0315@gmail.com']
+from config.config import host, port, username, password
 
-message = MIMEText('This email is sent from python', _charset=charset)
-message['From'] = Header(sender, charset)
-message['To'] = Header(', '.join(receivers), charset)
-message['Subject'] = Header('eFuture 测试邮件', charset)
+__charset = 'utf-8'
 
 
-print(host)
-try:
-    smtp = smtplib.SMTP(host=host, port=port)
-    smtp.ehlo()
-    smtp.starttls()
-    smtp.login(username, password)
-    smtp.sendmail(sender, receivers, message.as_string())
-    print('Successfully send')
-except smtplib.SMTPException as e:
-    print('Cannot send email:', e)
+def send_mail(receivers, subject, message):
+    message = MIMEText(message, _charset=__charset)
+    message['From'] = Header('Future Email', __charset)
+    message['To'] = Header(', '.join(receivers), __charset)
+    message['Subject'] = Header(subject, __charset)
+
+    try:
+        smtp = smtplib.SMTP(host=host, port=port)
+        smtp.starttls()
+        smtp.login(username, password)
+        smtp.sendmail(username, receivers, message.as_string())
+        print('Successfully send')
+    except smtplib.SMTPException as e:
+        print('Cannot send email:', e)
+
+
+if __name__ == '__main__':
+    from datetime import datetime
+    send_mail(['liuqi0315@gmail.com'], 'This is also a test email', 'Sent from python!\nAnd current is ' + datetime.now().strftime('2018-10-4 14:20:20'))

@@ -1,3 +1,5 @@
 .idea/
 # ignore sensitive username and password info
 config.json
+# ignore python cache
+__pycache__/
