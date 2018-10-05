@@ -1,17 +1,14 @@
-import datetime
+from flask_script import Manager, Shell
 
-from log import logger
-from task_queue import push, pop
+from web import create_app
+
+app = create_app()
+manager = Manager(app)
 
 if __name__ == '__main__':
-    logger.debug('push hello')
-    push('hello', datetime.datetime.now() + datetime.timedelta(seconds=10))
-    while True:
-        try:
-            b, msg = pop()
-            if b:
-                logger.debug('pop hello')
-        except KeyboardInterrupt as e1:
-            break
-        except Exception as e:
-            print(e)
+    def make_shell_context():
+        return dict(app=app, )
+
+
+    manager.add_command('shell', Shell(make_context=make_shell_context))
+    manager.run()
