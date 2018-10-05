@@ -2,7 +2,7 @@ import smtplib
 from email.header import Header
 from email.mime.text import MIMEText
 
-from config.config import host, port, username, password
+from config import host, port, username, password
 
 __charset = 'utf-8'
 
@@ -25,4 +25,6 @@ def send_mail(receivers, subject, message):
 
 if __name__ == '__main__':
     from datetime import datetime
-    send_mail(['liuqi0315@gmail.com'], 'This is also a test email', 'Sent from python!\nAnd current is ' + datetime.now().strftime('2018-10-4 14:20:20'))
+
+    send_mail(['liuqi0315@gmail.com'], 'This is also a test email',
+              'Sent from python!\nAnd current is ' + datetime.now().strftime('2018-10-4 14:20:20'))
