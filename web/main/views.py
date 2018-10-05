@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, request, redirect, url_for
 
 from . import main
 from .forms import FutureEmail
@@ -7,7 +7,7 @@ from .forms import FutureEmail
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = FutureEmail()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         print(form.subject)
         print(form.email)
         print(form.date)
