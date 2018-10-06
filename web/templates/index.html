@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <div class="background1">
         <div class="background2">
             <div class="container">
@@ -23,7 +23,10 @@
                             {{ wtf.form_field(form.subject) }}
                             {{ wtf.form_field(form.email) }}
                             {{ wtf.form_field(form.date) }}
-                            {{ wtf.form_field(form.content) }}
+                            <div class="form-group">
+                                {{ form.content.label }}
+                                {{ form.content(id="content", class="form-control", cols=40, rows=10) }}
+                            </div>
                             <br>
                             <button type="submit" class="btn btn-block btn-info btn-lg">
                                 To Future
@@ -36,6 +39,7 @@
             <div id="footer" class="bg-light text-center border-bottom">
                 <br>
                 <p>Powered by <a href="https://github.com/xlui">xlui</a></p>
+                <p>Source code: <a href="https://github.com/xlui/eFuture">eFuture</a></p>
                 <p>Contact Us: <a href="mailto:future@xd.mk">future@xd.mk</a></p>
             </div>
         </div>
