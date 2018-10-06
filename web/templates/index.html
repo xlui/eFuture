@@ -21,8 +21,8 @@
                     <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 main">
                         <form action="" method="post">
                             {{ wtf.form_field(form.subject) }}
-                            {{ wtf.form_field(form.email) }}
-                            {{ wtf.form_field(form.date) }}
+                            {{ wtf.form_field(form.receiver) }}
+                            {{ wtf.form_field(form.receiveDate) }}
                             <div class="form-group">
                                 {{ form.content.label }}
                                 {{ form.content(id="content", class="form-control", cols=40, rows=10) }}

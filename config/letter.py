@@ -3,9 +3,9 @@ import json
 
 
 class Letter:
-    def __init__(self, subject, sender, receiveDate, content, sendDate) -> None:
+    def __init__(self, subject, receiver, receiveDate, content, sendDate) -> None:
         self.subject = subject
-        self.sender = sender
+        self.receiver = receiver
         self.receiveDate = receiveDate
         self.content = content
         self.sendDate = sendDate
@@ -17,7 +17,7 @@ class Letter:
     def __toDict(self):
         return {
             'subject': self.subject,
-            'sender': self.sender,
+            'receiver': self.receiver,
             'receiveDate': self.receiveDate,
             'sendDate': self.sendDate,
             'content': self.content

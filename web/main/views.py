@@ -14,8 +14,8 @@ def index():
     if request.method == 'POST':
         letter = Letter(
             form.subject.data,
-            form.email.data,
-            form.date.data.__str__(),  # type: datetime.date
+            form.receiver.data,
+            form.receiveDate.data.__str__(),  # type: datetime.date
             form.content.data,
             datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         )

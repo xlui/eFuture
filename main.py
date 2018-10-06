@@ -14,18 +14,15 @@ if __name__ == '__main__':
 
     def run():
         import time
-        from task_queue import pop
         import json
+        from task_queue import pop
+        from mail import send_mail
         while True:
             time.sleep(1)
             boolean, message = pop()
             if boolean:
                 letter = json.loads(message)  # type:dict
-                print(letter['subject'])
-                print(letter['sender'])
-                print(letter['receiveDate'])
-                print(letter['sendDate'])
-                print(letter['content'])
+                send_mail(letter['receiver'], letter['subject'], letter['content'])
 
 
     thread = threading.Thread(target=run, args=())
