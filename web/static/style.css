@@ -8,9 +8,9 @@ h1 {
     font-family: Georgia, STXingkai, sans-serif;
 }
 
-h1:hover {
-    font-size: 45px;
-}
+/*h1:hover {*/
+/*font-size: 45px;*/
+/*}*/
 
 label {
     float: left;

@@ -15,7 +15,7 @@
         <div class="background2">
             <div class="container">
                 <div class="title text-center">
-                    <h1>This is the title!</h1>
+                    <h1>Send an email to the future!</h1>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 main">
@@ -29,7 +29,7 @@
                             </div>
                             <br>
                             <button type="submit" class="btn btn-block btn-info btn-lg">
-                                To Future
+                                Send To Future
                             </button>
                             {#                            {{ form.submit(class="btn btn-block btn-info btn-lg") }}#}
                         </form>
@@ -38,8 +38,8 @@
             </div>
             <div id="footer" class="bg-light text-center border-bottom">
                 <br>
-                <p>Powered by <a href="https://github.com/xlui">xlui</a></p>
-                <p>Source code: <a href="https://github.com/xlui/eFuture">eFuture</a></p>
+                <p>Powered by <a href="https://github.com/xlui">xlui</a>!</p>
+                <p>Source code: <a href="https://github.com/xlui/eFuture" target="_blank">eFuture</a></p>
                 <p>Contact Us: <a href="mailto:future@xd.mk">future@xd.mk</a></p>
             </div>
         </div>
@@ -48,13 +48,4 @@
 
 {% block scripts %}
     {{ super() }}
-    <script>
-        $('date').datepicker({
-            weekStart: 1,
-            autoclose: true,
-            daysOfWeekHighlighted: "0,6",
-            format: "yyyy/mm/dd",
-            language: "en"
-        });
-    </script>
 {% endblock %}
