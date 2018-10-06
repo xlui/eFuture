@@ -19,6 +19,6 @@ def index():
             form.content.data,
             datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         )
-        push(str(letter), datetime.datetime.strptime(letter.receiveDate, '%Y-%m-%d'))
+        push(letter.toJSON(), datetime.datetime.strptime(letter.receiveDate, '%Y-%m-%d'))
         return redirect(url_for('main.index'))
     return render_template('index.html', form=form)
