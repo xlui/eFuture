@@ -16,3 +16,6 @@ class Letter:
             'sendDate': self.sendDate,
             'content': self.content
         }.__repr__()
+
+    def __str__(self):
+        return self.__repr__()

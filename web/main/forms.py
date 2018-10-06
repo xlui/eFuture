@@ -7,10 +7,11 @@ from wtforms.validators import Length, Email, DataRequired
 
 
 class FutureEmail(FlaskForm):
-    subject = StringField(label='Subject', validators=[Length(0, 128)], default='Future Email')
+    subject = StringField(label='Subject', validators=[Length(0, 128)], default='A Future Email')
     email = StringField(label='Email Address', validators=[DataRequired(), Length(0, 64), Email()],
-                        default='i@example.com')
+                        default='liuqi0315@gmail.com')
     date = DateField('Date to receive this email', validators=[DataRequired()], format='%Y-%m-%d',
                      default=datetime.today)
-    content = TextAreaField('Content', default='This is the content of future email.')
+    content = TextAreaField('Content', default="Hi there, I'm now writing to you at {}.".format(
+        datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     submit = SubmitField('Submit')

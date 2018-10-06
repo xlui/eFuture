@@ -4,11 +4,9 @@ import uuid
 from task_queue import connection, QUEUE_KEY
 
 
-def push(message, date):
+def push(message: str, date: datetime.datetime):
     """Push a message into redis zset
 
-    :type message str
-    :type date datetime.datetime
     :param message: message content
     :param date: the date this message to be consumed
     :return: None
