@@ -10,9 +10,9 @@ __charset = 'utf-8'
 
 def send_mail(receiver: str, subject: str, message: str):
     message = MIMEText(message, _charset=__charset)
-    message['From'] = Header('Future Email <{}>'.format(username), __charset).encode()
-    message['To'] = Header('<{}>'.format(receiver), __charset).encode()
-    message['Subject'] = Header(subject, __charset).encode()
+    message['From'] = Header('Future Email <{}>'.format(username))
+    message['To'] = Header('<{}>'.format(receiver))
+    message['Subject'] = Header(subject)
 
     try:
         smtp = smtplib.SMTP(host=host, port=port)
