@@ -91,15 +91,15 @@ After configuring config file and redis properly, run the project:
 python main.py
 ```
 
-## Docker
+## Run in Docker
 
 A docker version project is provided also.
 
 ```bash
-docker pull xlui/efuture
-docker run --name redis -p 6379:6379 -d redis
-docker run --name efuture --link redis
--p 8080:5000
+$ docker pull xlui/efuture
+$ docker run --name redis -p 127.0.0.1:6379:6379 -d redis
+$ docker run --name efuture --link redis
+-p 127.0.0.1:8080:5000
 -v /path/to/config.json:/data/eFuture/config.json
 -d xlui/efuture
 ```
