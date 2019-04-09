@@ -1,0 +1,13 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    hostname: redis
+  efuture:
+    build: '.'
+    volumes:
+      - /data/eFuture/config.json:/data/eFuture/config.json
+    ports:
+      - 127.0.0.1:8002:5000
+    links:
+      - redis:redis

@@ -1,5 +1,6 @@
 import threading
 
+from log import logger
 from web import create_app
 
 app = create_app()
@@ -14,6 +15,7 @@ if __name__ == '__main__':
             time.sleep(1)
             boolean, message = pop()
             if boolean:
+                logger.info(f'Pop future email from redis: message={message}')
                 letter = json.loads(message)  # type:dict
                 send_mail(letter['receiver'], letter['subject'], letter['content'])
 

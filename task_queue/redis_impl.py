@@ -11,10 +11,12 @@ def push(message: str, date: datetime.datetime):
     :param date: the date this message to be consumed
     :return: None
     """
-    msg_id = uuid.uuid4()
+    msg_id = str(uuid.uuid4())
     pipeline = connection.pipeline()
     pipeline.set(msg_id, message)
-    pipeline.zadd(QUEUE_KEY, msg_id, date.timestamp())
+    pipeline.zadd(QUEUE_KEY, {
+        msg_id: date.timestamp()
+    })
     pipeline.execute()
 
 
@@ -27,7 +29,7 @@ def pop():
     """
     task = connection.zrange(QUEUE_KEY, 0, 0)
     if not task:
-        return False, ""
+        return False, 'No emails now!'
     msg_id = task[0]
     timestamp = connection.zscore(QUEUE_KEY, msg_id)
     now = datetime.datetime.now().timestamp()
@@ -38,7 +40,7 @@ def pop():
         pipeline.delete(msg_id)
         pipeline.execute()
         return True, message
-    return False, ""
+    return False, "It's too early now!"
 
 
 if __name__ == '__main__':

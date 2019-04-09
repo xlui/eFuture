@@ -1,6 +1,6 @@
 import datetime
 
-from flask import render_template, request, redirect, url_for
+from flask import render_template, redirect, url_for
 
 from config import Letter
 from task_queue import push
@@ -11,7 +11,7 @@ from .forms import FutureEmail
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = FutureEmail()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         letter = Letter(
             form.subject.data,
             form.receiver.data,
