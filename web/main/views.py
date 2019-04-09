@@ -9,8 +9,14 @@ from . import main
 from .forms import FutureEmail
 
 
-@main.route('/', methods=['GET', 'POST'])
-def index():
+@main.route('/', methods=['GET'])
+def get():
+    form = FutureEmail()
+    return render_template('index.html', form=form)
+
+
+@main.route('/', methods=['POST'])
+def post():
     form = FutureEmail()
     if form.validate_on_submit():
         letter = Letter(
@@ -23,5 +29,5 @@ def index():
         push(letter.toJSON(), datetime.datetime.strptime(letter.receiveDate, '%Y-%m-%d'))
         logger.info(f'Receive new future email! Letter: {letter}')
         return redirect(url_for('main.index'))
-    logger.info(f'New request or invalid request!')
-    return render_template('index.html', form=form)
+    else:
+        logger.info(f'Invalid post form! Form: {form}')
