@@ -1,6 +1,7 @@
 import datetime
 import uuid
 
+from log import logger
 from task_queue import connection, QUEUE_KEY
 
 
@@ -18,6 +19,7 @@ def push(message: str, date: datetime.datetime):
         msg_id: date.timestamp()
     })
     pipeline.execute()
+    logger.info(f'Save a new future email: [message: {message}, date: {date}]')
 
 
 def pop():
@@ -45,7 +47,6 @@ def pop():
 
 if __name__ == '__main__':
     now = datetime.datetime.now()
-    from log import logger
 
     logger.debug('push hello')
     push('hello', now + datetime.timedelta(seconds=10))
