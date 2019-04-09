@@ -1,6 +1,6 @@
 import datetime
 
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 from config import Letter
 from log import logger
@@ -17,7 +17,7 @@ def get():
 
 @main.route('/', methods=['POST'])
 def post():
-    form = FutureEmail()
+    form = FutureEmail(request.form)
     if form.validate_on_submit():
         letter = Letter(
             form.subject.data,
@@ -28,6 +28,7 @@ def post():
         )
         push(letter.toJSON(), datetime.datetime.strptime(letter.receiveDate, '%Y-%m-%d'))
         logger.info(f'Receive new future email! Letter: {letter}')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.get'))
     else:
-        logger.info(f'Invalid post form! Form: {form}')
+        logger.info(f'Invalid post form! Errors: {form.errors}')
+        return render_template('index.html', form=form)

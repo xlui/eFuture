@@ -20,6 +20,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 main">
                         <form action="" method="post">
+                            {{ form.csrf_token }}
                             {{ wtf.form_field(form.subject) }}
                             {{ wtf.form_field(form.receiver) }}
                             {{ wtf.form_field(form.receiveDate) }}
