@@ -3,6 +3,7 @@ services:
   redis:
     image: redis
     hostname: redis
+    restart: always
   efuture:
     build: '.'
     volumes:
@@ -11,3 +12,4 @@ services:
       - 127.0.0.1:8002:5000
     links:
       - redis:redis
+    restart: always
